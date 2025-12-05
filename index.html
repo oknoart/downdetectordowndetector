@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Downdetector Status</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        html, body {
+          height: 100%;
+          margin: 0;
+        }
+        body {
+          background-color: #444; 
+        }
+    </style>
+
+    <script>
+        async function checkSite() {
+          const url = "https://downdetector.co.uk/";
+          const timeoutMs = 5000;
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+          try {
+            const response = await fetch(url, {
+              mode: "no-cors",
+              cache: "no-store",
+              signal: controller.signal
+            });
+    
+            clearTimeout(timeoutId);
+    
+            document.body.style.backgroundColor = "#00aa00";
+          } catch (err) {
+            clearTimeout(timeoutId);
+    
+            document.body.style.backgroundColor = "#aa0000";
+          }
+        }
+    
+        window.addEventListener("load", () => {
+          checkSite();
+          setInterval(checkSite, 60000);
+        });
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>
